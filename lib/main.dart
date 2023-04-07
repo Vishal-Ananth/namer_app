@@ -58,6 +58,51 @@ class MyHomePage extends StatelessWidget {
       icon = Icons.favorite_outline_outlined;
     }
 
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // Text('A random Awesome idea:'),
+          BigCard(pair: pair),
+          SizedBox(height: 25),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ElevatedButton.icon(
+                  onPressed: () {
+                    appState.updateFavourite();
+                  },
+                  icon: Icon(icon),
+                  label: Text('Like')),
+              SizedBox(width: 10),
+              ElevatedButton(
+                onPressed: () {
+                  appState.getNext();
+                },
+                child: Text('Next'),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class GeneratorPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    var appState = context.watch<MyAppState>();
+    var pair = appState.current;
+
+    IconData icon;
+    if (appState.favourites.contains(pair)) {
+      icon = Icons.favorite;
+    } else {
+      icon = Icons.favorite_outline_outlined;
+    }
+
     return Scaffold(
       body: Center(
         child: Column(
@@ -103,8 +148,9 @@ class BigCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    var style = theme.textTheme.displayMedium!
-        .copyWith(color: theme.colorScheme.onPrimaryContainer);
+    var style = theme.textTheme.displayMedium!.copyWith(
+      color: theme.colorScheme.onPrimary,
+    );
 
     return Card(
       color: theme.colorScheme.primary,
