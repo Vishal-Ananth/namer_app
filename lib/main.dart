@@ -61,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
         page = GeneratorPage();
         break;
       case 1:
-        page = Placeholder();
+        page = FavouritesPage();
         break;
       default:
         throw UnimplementedError('No Page for $selectedIndex');
@@ -73,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             SafeArea(
               child: NavigationRail(
-                extended: constraint.maxWidth >= 600,
+                extended: constraint.maxWidth >= 750,
                 destinations: [
                   NavigationRailDestination(
                     icon: Icon(Icons.home),
@@ -146,6 +146,31 @@ class GeneratorPage extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class FavouritesPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    var favState = context.watch<MyAppState>();
+    if (favState.favourites.isEmpty) {
+      return Center(
+        child: Text("No Favourites yet <3"),
+      );
+    }
+    return ListView(
+      children: [
+        Padding(
+          padding: EdgeInsets.all(20),
+          child: Text('You have ${favState.favourites.length} names saved'),
+        ),
+        for (var pair in favState.favourites)
+          ListTile(
+            leading: Icon(Icons.favorite_rounded),
+            title: Text(pair.asPascalCase),
+          )
+      ],
     );
   }
 }
